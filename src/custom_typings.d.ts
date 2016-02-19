@@ -28,3 +28,19 @@ import * as _ from 'lodash'
  * see https://github.com/typings/registry
  *
  */
+
+ declare module 'redux-logger' {
+
+   interface ReduxLoggerOptions {
+     actionTransformer?: (action: any) => any;
+     collapsed?: boolean;
+     duration?: boolean;
+     level?: string;
+     logger?: any;
+     predicate?: (getState: Function, action: any) => boolean;
+     timestamp?: boolean;
+     stateTransformer?: (state: any) => any;
+   }
+
+   export default function createLogger(options?: ReduxLoggerOptions): any;
+ }
