@@ -1,4 +1,4 @@
-import {Component} from 'angular2/core';
+import {Component, OnInit} from 'angular2/core';
 import {Store} from './store/store';
 import counterActions from './store/actions';
 /*
@@ -18,9 +18,20 @@ import counterActions from './store/actions';
   <button (click)="incrementAsync(2000)">Inc Async</button>
   `
 })
-export class App {
+export class App implements OnInit {
+
+  private counter: Number;
+
   constructor(private store: Store) {
-    console.log(store.getState());
+  }
+
+  ngOnInit() {
+    this.store.subscribe(this.update.bind(this));
+    this.update();
+  }
+
+  update() {
+    this.counter = this.store.getState().counter;
   }
 
   increment() {
