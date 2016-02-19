@@ -9,7 +9,7 @@ const logger = createLogger({
   stateTransformer: (state) => {
     return {
       counter: state.counter
-    }
+    };
   }
 });
 

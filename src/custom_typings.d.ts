@@ -28,7 +28,7 @@ import * as _ from 'lodash'
  * see https://github.com/typings/registry
  *
  */
-
+/*
  declare module 'redux-logger' {
 
    interface ReduxLoggerOptions {
@@ -44,3 +44,4 @@ import * as _ from 'lodash'
 
    export default function createLogger(options?: ReduxLoggerOptions): any;
  }
+*/

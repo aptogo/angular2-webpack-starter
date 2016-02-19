@@ -4,11 +4,11 @@ import {Observable} from 'rxjs/Observable';
 const lodashGet = require('lodash/get');
 
 export interface IMapStateToTarget {
-  (state:any) : {};
+  (state: any): {};
 }
 
 export interface IMapDispatchToTarget {
-  (dispatch:IDispatch) : {[key:string]: Function};
+  (dispatch: IDispatch) : {[key: string]: Function};
 }
 
 export abstract class ReduxStore<T> {
@@ -21,7 +21,8 @@ export abstract class ReduxStore<T> {
 
   constructor(private store) {
     if (!store) {
-      throw new Error('Store cannot be undefined. Make sure to pass the redux store as the only argument of the constructor.');
+      throw new Error(`Store cannot be undefined. Make sure to pass the redux store
+        as the only argument of the constructor.`);
     }
     if (ReduxStore.initialized) {
       throw new Error('Only one redux store can exist per application.');
@@ -34,7 +35,7 @@ export abstract class ReduxStore<T> {
     });
   }
 
-  getState():T {
+  getState(): T {
     return this.store.getState();
   }
 
@@ -46,7 +47,8 @@ export abstract class ReduxStore<T> {
     return this.store.subscribe(() => listener(this.getState()));
   }
 
-  connect(mapStateToTarget:IMapStateToTarget, mapDispatchToTarget:IMapDispatchToTarget = ReduxStore.defaultMapDispatchToTarget) {
+  connect(mapStateToTarget: IMapStateToTarget,
+    mapDispatchToTarget: IMapDispatchToTarget = ReduxStore.defaultMapDispatchToTarget) {
     const mappedState = mapStateToTarget(this.store.getState());
     const boundActionCreators = mapDispatchToTarget(this.store.dispatch);
 
@@ -61,7 +63,7 @@ export abstract class ReduxStore<T> {
       });
 
       return unsubscribe;
-    }
+    };
   }
 
   select<R>(keyOrSelector: ((state: T) => R) | string | number | symbol): Observable<R> {
@@ -71,11 +73,9 @@ export abstract class ReduxStore<T> {
       typeof keyOrSelector === 'symbol'
     ) {
       return this.state$.map(state => lodashGet(state, keyOrSelector)).distinctUntilChanged();
-    }
-    else if (typeof keyOrSelector === 'function') {
+    } else if (typeof keyOrSelector === 'function') {
       return this.state$.map(keyOrSelector).distinctUntilChanged();
-    }
-    else {
+    } else {
       throw new TypeError(
         `Store@select Unknown Parameter Type: `
         + `Expected type of function or valid key type, got ${typeof keyOrSelector}`

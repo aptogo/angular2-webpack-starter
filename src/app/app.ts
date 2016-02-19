@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import * as CounterActions from './store/actions';
 import {IDispatch} from 'redux';
 
+
 /*
  * Top Level Component
  */
@@ -23,7 +24,7 @@ import {IDispatch} from 'redux';
   <button (click)="incrementAsync(2000)">Inc Async</button>
   `
 })
-export class App implements OnInit, OnDestroy{
+export class App implements OnInit, OnDestroy {
 
   counter: Number;
   counterAsync: Observable<Number>;

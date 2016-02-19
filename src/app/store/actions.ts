@@ -1,5 +1,5 @@
-export const INCREMENT_COUNTER:string = 'INCREMENT_COUNTER';
-export const DECREMENT_COUNTER:string = 'DECREMENT_COUNTER';
+export const INCREMENT_COUNTER: string = 'INCREMENT_COUNTER';
+export const DECREMENT_COUNTER: string = 'DECREMENT_COUNTER';
 
 export function increment() {
   return {
@@ -25,7 +25,7 @@ export function incrementIfOdd() {
   };
 }
 
-export function incrementAsync(delay:number = 1000)  {
+export function incrementAsync(delay: number = 1000)  {
   return dispatch => {
     setTimeout(() => {
       dispatch(increment());
