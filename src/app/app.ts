@@ -1,6 +1,10 @@
-import {Component, OnInit} from 'angular2/core';
+import {Component, OnInit, OnDestroy, ChangeDetectionStrategy} from 'angular2/core';
 import {Store} from './store/store';
-import counterActions from './store/actions';
+import {Observable} from 'rxjs/Observable';
+import {bindActionCreators} from 'redux';
+import * as CounterActions from './store/actions';
+import {IDispatch} from 'redux';
+
 /*
  * Top Level Component
  */
@@ -11,42 +15,47 @@ import counterActions from './store/actions';
   pipes: [],
   styles: [],
   template: `
-  {{counter}}
+  Normal counter:{{counter}}<br/>
+  Observable counter:{{counterAsync | async}}<br/>
   <button (click)="increment()">Inc</button>
   <button (click)="decrement()">Dec</button>
   <button (click)="incrementIfOdd()">Inc if Odd</button>
   <button (click)="incrementAsync(2000)">Inc Async</button>
   `
 })
-export class App implements OnInit {
+export class App implements OnInit, OnDestroy{
 
-  private counter: Number;
+  counter: Number;
+  counterAsync: Observable<Number>;
+  private unsubscribe: Function;
 
   constructor(private store: Store) {
   }
 
   ngOnInit() {
-    this.store.subscribe(this.update.bind(this));
-    this.update();
+    this.unsubscribe = this.store.connect(this.mapStateToThis, this.mapDispatchToThis)(this);
+    this.counterAsync = this.store.select('counter');
+    this.store.state$.subscribe(state => {
+      console.log(state);
+    });
   }
 
-  update() {
-    this.counter = this.store.getState().counter;
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 
-  increment() {
-    this.store.dispatch(counterActions.increment());
+  mapStateToThis(state) {
+    return {
+      counter: state.counter
+    };
   }
 
-  decrement() {
-    this.store.dispatch(counterActions.decrement());
-  }
-
-  incrementIfOdd() {
-    this.store.dispatch(counterActions.incrementIfOdd());
-  }
-
-  incrementAsync() {
-    this.store.dispatch(counterActions.incrementAsync());
+  mapDispatchToThis(dispatch)  {
+    return bindActionCreators({
+        increment: CounterActions.increment,
+        decrement: CounterActions.decrement,
+        incrementIfOdd: CounterActions.incrementIfOdd,
+        incrementAsync: CounterActions.incrementAsync
+    }, dispatch);
   }
 }

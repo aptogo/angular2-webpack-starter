@@ -17,7 +17,7 @@ const createStoreWithMiddleware = applyMiddleware(logger, thunk)(createStore);
 const store = createStoreWithMiddleware(rootReducer);
 
 @Injectable()
-export class Store extends ReduxStore {
+export class Store extends ReduxStore<any> {
 
   constructor() {
     super(store);

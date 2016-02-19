@@ -7,13 +7,13 @@ export function increment() {
   };
 }
 
-function decrement()  {
+export function decrement()  {
   return {
     type: DECREMENT_COUNTER
   };
 }
 
-function incrementIfOdd() {
+export function incrementIfOdd() {
   return (dispatch, getState) => {
     const { counter } = getState();
 
@@ -25,17 +25,10 @@ function incrementIfOdd() {
   };
 }
 
-function incrementAsync(delay:number = 1000)  {
+export function incrementAsync(delay:number = 1000)  {
   return dispatch => {
     setTimeout(() => {
       dispatch(increment());
     }, delay);
   };
 }
-
-export default {
-  increment,
-  decrement,
-  incrementIfOdd,
-  incrementAsync
-};
